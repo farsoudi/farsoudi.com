@@ -9,6 +9,9 @@ steps to host my own website incase i forget lol
 3) symbolic link / connect syncthing to ./journal (untracked by git)
 4) docker compose up --build -d
 5) route caddy / nginx to point farsoudi.com -> 3001
+
+notes:
+- source source-me # gets easy commands up,down,reup
 ``` 
 
 todo

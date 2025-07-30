@@ -1,8 +1,22 @@
-[ [farsoudi.com](https://farsoudi.com) ] | [ cecs at usc ] | [ [swe @ bp](https://www.brakeperformance.com) ]
---- | --- | ---
+# [ [www.farsoudi.com](https://www.farsoudi.com) source code ]
 
-my homepage is in construction - will be home to my journal, hosted services, and portfolio.
+```
+steps to host my own website incase i forget lol
+
+0) clone repo & cd into repo
+1) cp .env.dist .env
+2) change env vars
+3) symbolic link / connect syncthing to ./journal (untracked by git)
+4) docker compose up --build -d
+5) route caddy / nginx to point farsoudi.com -> 3001
+``` 
+
+todo
 --- |
+route www to website via dns
+setup syncthing to jornal
+build website
+deploy v1 to prod via caddy
 
 kasra farsoudi | 2025
  --- | ---

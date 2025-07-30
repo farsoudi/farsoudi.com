@@ -10,9 +10,6 @@ steps to host my own website incase i forget lol
 4) $ source source-me
 5) $ up
 6) route caddy / nginx to point farsoudi.com -> 3001
-
-notes:
-- source source-me # gets easy commands up,down,reup
 ``` 
 
 todo

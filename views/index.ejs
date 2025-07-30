@@ -1,9 +1,61 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Hello</title>
-</head>
-<body>
-  <h1>Welcome</h1>
-</body>
-</html>
+<%- include('partials/header.ejs') %>
+<div class="border-2 p-20">
+  <p>
+    2025/06/29
+    <br/>
+    <br/>
+    welcome to my homepage
+    <br/>
+    <br/>
+    my main mission for this website is to keep track of my thoughts and ideas. as human beings, we have an innate duty to push the limits of our curiousity. keeping this in mind, i hope to cultivate my own space online that helps me foster new ideas and perspectives on the <b>human</b> corpus. we are equipped with the ability to love, to indulge, to fathom, to forget. these virtues & vices control you and how you interact with the world when left unchecked. 
+    <br/>
+    <br/>
+    oh, and if you're an employer that's interested in my work experience, refer to the middle tab at the top of the page. if you ever get lost, just click the topmost bar labeled with my name to navigate to the top. more info about my professional life over there. <a href="https://github.com/farsoudi/farsoudi.com">click here for the source code of this website.<a/>  and <a href="https://github.com/farsoudi">click over here for my general github.<a/>
+
+  </p>
+</div>
+<div class=" border-l-2 border-r-2 p-20 bg-amber-50">
+  <div class="border-2 bg-white">
+    <p class="text-2xl pl-2">services hosted here</p>
+    
+    <br/>
+    <br/>
+
+    <a href="https://media.farsoudi.com">
+      <div class="border-t-2 pl-2">
+        <p class="text-xl" >jellyfin</p>
+        <p  class="text-sm">movies hosted on this server for my friends and i to watch</p>
+      </div>
+    </a>
+
+    <a href="https://chat.farsoudi.com">
+      <div class="border-t-2 pl-2">
+        <p class="text-xl" >mattermost</p>
+        <p  class="text-sm">communication for projects/companies i manage</p>
+      </div>
+    </a>
+
+    <a href="https://taiga.farsoudi.com">
+      <div class="border-t-2 pl-2">
+        <p class="text-xl" >taiga</p>
+        <p  class="text-sm">project management similar to jira</p>
+      </div>
+    </a>
+
+  </div>
+
+</div>
+
+<div class="h-100 border-l-2 border-r-2 border-t-2 p-20 ">
+  todo list
+  <br/>
+  <br/>
+  - create frontend for journal
+  <br/>
+  - create backend for journal (filestreams)
+  <br/>
+  - create frontend for portfolio
+  <br/>
+  - create backend for portfolio (sql)
+</div>
+<%- include('partials/footer.ejs') %>

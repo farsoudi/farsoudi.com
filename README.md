@@ -13,7 +13,7 @@ steps to host my own website incase i forget lol
 
 todo
 --- |
-route www to website via dns
+~route www to website via dns~
 setup syncthing to jornal
 build website
 deploy v1 to prod via caddy

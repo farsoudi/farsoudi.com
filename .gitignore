@@ -1,3 +1,4 @@
+node_modules/
 journal/
 public/output.css
 mysql_data/

@@ -1,6 +1,30 @@
 version: "3.8"
 
 services:
+
+  db:
+    image: mysql:8.0
+    restart: unless-stopped
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_RPW}
+      - MYSQL_DATABASE=${DB_DB}
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PW}
+    volumes:
+      - ./mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 1s
+      retries: 10
+
+  adminer:
+    image: adminer
+    restart: unless-stopped
+    depends_on:
+      - db
+    ports:
+      - "8085:8080"
+
   app:
     build: .
     restart: unless-stopped
@@ -15,26 +39,8 @@ services:
       - MYSQL_PASSWORD=${DB_PW}
       - MYSQL_DATABASE=${DB_DB}
     depends_on:
-      - db
-
-  db:
-    image: mysql:8.0
-    restart: unless-stopped
-    environment:
-      - MYSQL_ROOT_PASSWORD=${DB_RPW}
-      - MYSQL_DATABASE=${DB_DB}
-      - MYSQL_USER=${DB_USER}
-      - MYSQL_PASSWORD=${DB_PW}
-    volumes:
-      - ./mysql_data:/var/lib/mysql
-
-  adminer:
-    image: adminer
-    restart: unless-stopped
-    depends_on:
-      - db
-    ports:
-      - "8085:8080"
+      db:
+        condition: service_healthy
 
 volumes:
   db_data:

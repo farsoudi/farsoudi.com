@@ -20,7 +20,9 @@ todo
 ~route www to website via dns~
 setup syncthing to jornal
 build website
-deploy v1 to prod via caddy
+bolden links to click
+standardize font
+~deploy v1 to prod via caddy~
 
 kasra farsoudi | 2026
  --- | ---

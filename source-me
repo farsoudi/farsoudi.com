@@ -8,9 +8,11 @@ up() {
   fi
 }
 reup() {
-  docker compose down
+  down
   up "$1"
 }
 down() {
-  docker compose down
+  # --profile dev --profile prod -> all services visible to compose,
+  # so it can tear down the shared network regardless of which mode is running
+  docker compose --profile dev --profile prod down --remove-orphans
 }

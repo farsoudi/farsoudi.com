@@ -8,9 +8,12 @@ steps to host my own website incase i forget lol
 2) change env vars
 3) symbolic link / connect syncthing to ./journal (untracked by git)
 4) $ source source-me
-5) $ up
+5) $ up                     # dev: hot reload (node --watch + tailwind --watch)
+   or
+   $ up --prod              # prod: source baked into image, no hot reload
 6) route caddy / nginx to point farsoudi.com -> 3001
-``` 
+```
+
 
 todo
 --- |
@@ -19,5 +22,5 @@ setup syncthing to jornal
 build website
 deploy v1 to prod via caddy
 
-kasra farsoudi | 2025
+kasra farsoudi | 2026
  --- | ---

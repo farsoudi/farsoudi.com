@@ -1,3 +1,16 @@
-alias up='docker compose up --build -d'
-alias reup='docker compose down && docker compose up --build -d'
-alias down='docker compose down'
+up() {
+  if [ "$1" = "--prod" ]; then
+    echo "starting (prod)"
+    docker compose --profile prod up --build -d
+  else
+    echo "starting (dev, hot reload)"
+    docker compose --profile dev up --build -d
+  fi
+}
+reup() {
+  docker compose down
+  up "$1"
+}
+down() {
+  docker compose down
+}

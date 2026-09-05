@@ -37,7 +37,9 @@ db.connect(err => {
 });
 
 app.get('/', (req, res) => {
-    res.render('index');
+    const imgDir = path.join(__dirname, 'public', 'img');
+    const images = fs.readdirSync(imgDir).sort(() => 0.5 - Math.random()).slice(0, 3);
+    res.render('index', { images });
 });
 
 app.listen(port, () => {

@@ -16,7 +16,7 @@
 </div>
 <div class="h-300 border-l-2 border-r-2 p-20 bg-white relative overflow-hidden">
   <% images.forEach((img, i) => { %>
-    <img src="/img/<%= img %>" class="absolute inset-0 w-full h-full object-cover" style="opacity: <%= i === 0 ? 1 : 0.35 %>;" />
+    <img src="/img/<%= img %>" class="absolute inset-0 w-full h-full object-cover" style="opacity: <%= i === 0 ? 1 : 0.45 %>;" loading="<%= i === 0 ? 'eager' : 'lazy' %>" decoding="async" <%= i === 0 ? 'fetchpriority="high"' : '' %> />
   <% }) %>
 </div>
 

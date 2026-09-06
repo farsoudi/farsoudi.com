@@ -1,4 +1,5 @@
 <%- include('partials/header.ejs') %>
+<script src="/js/sliver-reveal.js" defer></script>
 <div class="border-2 border-b-0 p-20">
   <p>
     2025/06/29
@@ -14,9 +15,9 @@
 
   </p>
 </div>
-<div class="h-300 border-l-2 border-r-2 p-20 bg-white relative overflow-hidden">
+<div class="h-300 border-l-2 border-r-2 p-20 bg-white relative overflow-hidden" data-sliver-delta="0.001" data-sliver-base="0.3" data-sliver-t="5.5">
   <% images.forEach((img, i) => { %>
-    <img src="/img/<%= img %>" class="absolute inset-0 w-full h-full object-cover" style="opacity: <%= i === 0 ? 1 : 0.45 %>;" loading="<%= i === 0 ? 'eager' : 'lazy' %>" decoding="async" <%= i === 0 ? 'fetchpriority="high"' : '' %> />
+    <img src="/img/<%= img %>" class="absolute inset-0 w-full h-full object-cover sliver-img" style="opacity: <%= i === 0 ? 1 : 0.45 %>;" loading="<%= i === 0 ? 'eager' : 'lazy' %>" decoding="async" <%= i === 0 ? 'fetchpriority="high"' : '' %> />
   <% }) %>
 </div>
 

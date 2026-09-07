@@ -36,9 +36,13 @@ db.connect(err => {
 
 });
 
+const IMAGE_EXT_RE = /\.(jpe?g|png|gif|webp|avif)$/i;
+
 app.get('/', (req, res) => {
     const imgDir = path.join(__dirname, 'public', 'img');
-    const images = fs.readdirSync(imgDir).sort(() => 0.5 - Math.random()).slice(0, 3);
+    const images = fs.readdirSync(imgDir)
+        .filter((f) => IMAGE_EXT_RE.test(f))
+        .sort(() => 0.5 - Math.random());
     res.render('index', { images });
 });
 

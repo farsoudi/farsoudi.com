@@ -1,6 +1,5 @@
 .git
 node_modules
 mysql_data
-journal
 .env
 public/output.css

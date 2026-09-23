@@ -30,8 +30,6 @@ services:
     restart: unless-stopped
     ports:
       - "${PORT}:${PORT}"
-    volumes:
-      - ./journal:/journal
     environment:
       - PORT=${PORT}
       - MYSQL_HOST=db
@@ -53,7 +51,6 @@ services:
     volumes:
       - ./:/app
       - node_modules:/app/node_modules   # seeded from image; keeps deps when host dir is empty
-      - ./journal:/journal
     environment:
       - PORT=${PORT}
       - MYSQL_HOST=db
@@ -65,5 +62,4 @@ services:
         condition: service_healthy
 
 volumes:
-  db_data:
   node_modules:

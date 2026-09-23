@@ -1,12 +1,70 @@
 <%- include('partials/header.ejs') %>
-<% for (let i = 0; i < 3; i++) { %>
-<div class="border-2 border-b-0 p-15">
-  <h1>Title of Journal<h1/>
+<% for (let i = 0; i < 5; i++) { %>
+  <!-- TODO: clicking the div takes u to the article-->
+<div class="border-2 border-b-0 p-20">
+  <div class="flex flex-row justify-between items-baseline gap-4">
+    <h1 class="font-bold">title of journal</h1>
+    <h1>2026/09/23</h1>
+  </div>
   <br>
-  <p>lorem ipsum dolor sit amet consectetur adipiscing elit elit soluta blanditiis officia ducimus et odio corrupti aut voluptate harum occaecat corrupti et aut dignissimos est ducimus harum dignissimos eu autem excepturi quis quis et fugiat eu sit quo tempor eum maxime et provident do ex qui possimus mollitia elit in pariatur aliqua dolore eum ducimus adipiscing qui cupidatat iusto iusto culpa est deserunt mollit eu vero ipsum deleniti lorem nihil eiusmod libero consequat quis omnis quo quos ut at eos   </p>  
+  <!-- TODO: paragraph preview is just first X words truncated with ... at the end-->
+  <p>lorem ipsum dolor sit amet consectetur adipiscing elit elit soluta blanditiis officia ducimus et odio corrupti aut voluptate harum occaecat corrupti et aut dignissimos est ducimus harum dignissimos eu autem excepturi quis quis et fugiat eu sit quo tempor eum maxime et provident do ex qui possimus mollitia elit in pariatur aliqua dolore eum ducimus adipiscing qui cupidatat iusto iusto culpa est deserunt mollit eu vero ipsum deleniti lorem nihil eiusmod libero consequat quis omnis quo quos ut at eos ...</p>  
 </div>
 <% } %>
-
-  </p>  
+<!-- TODO: When clicking on any filter box, when regetting new url with new paramaters focus should be on the bottom still, so user doenst have to scroll all the way down when doing multiple filter tags or searching after setting filter-->
+<div class="border-2 border-b-0 p-5 flex flex-row justify-start items-center space-x-2">
+  <href>Prev</href>
+  <href>1..35</href>
+  <href>Next</href>
+  <href>Filter</href>
+  <href>Search</href>
+</div>
+<div class="border-2 border-b-0 p-5 flex flex-row justify-start items-center space-x-2 hidden">
+enter query here..
+</div>
+<div class="border-2 border-b-0 p-3 sm:p-5 flex flex-row flex-wrap justify-start items-center gap-2 hidden">
+	<div class="outline outline-2 outline-black whitespace-nowrap px-2 py-1 text-sm sm:text-base">
+	general-thought
+	</div>
+	<div class="outline outline-2 outline-black whitespace-nowrap px-2 py-1 text-sm sm:text-base">
+	general-thought
+	</div>
+	<div class="outline outline-2 outline-black whitespace-nowrap px-2 py-1 text-sm sm:text-base">
+	general-thought
+	</div>
+	<div class="outline outline-2 outline-black whitespace-nowrap px-2 py-1 text-sm sm:text-base">
+	general-thought
+	</div>
+	<div class="outline outline-2 outline-black whitespace-nowrap px-2 py-1 text-sm sm:text-base">
+	general-thought
+	</div>
+	<div class="outline outline-2 outline-black whitespace-nowrap px-2 py-1 text-sm sm:text-base">
+	general-thought
+	</div>
+	<div class="outline outline-2 outline-black whitespace-nowrap px-2 py-1 text-sm sm:text-base">
+	general-thought
+	</div>
+	<div class="outline outline-2 outline-black whitespace-nowrap px-2 py-1 text-sm sm:text-base">
+	general-thought
+	</div>
+	<div class="outline outline-2 outline-black whitespace-nowrap px-2 py-1 text-sm sm:text-base">
+	general-thought
+	</div>
+	<div class="outline outline-2 outline-black whitespace-nowrap px-2 py-1 text-sm sm:text-base">
+	general-thought
+	</div>
+	<div class="outline outline-2 outline-black whitespace-nowrap px-2 py-1 text-sm sm:text-base">
+	general-thought
+	</div>
+	<div class="whitespace-nowrap px-2 py-1 text-sm sm:text-base">
+	general-thought
+	</div>
+	<div class="outline outline-2 outline-black whitespace-nowrap px-2 py-1 text-sm sm:text-base">
+	general-thought
+	</div>
+	<div class="whitespace-nowrap px-2 py-1 text-sm sm:text-base">
+	general-thought
+	</div>
 </div>
 <%- include('partials/footer.ejs') %>
+

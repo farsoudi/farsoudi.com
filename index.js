@@ -48,6 +48,10 @@ app.get('/', (req, res) => {
     res.render('index', { images });
 });
 
+app.get('/journal', (req, res) => {
+    res.render('journal', {});
+});
+
 app.listen(port, () => {
     console.log(`App listening on port ${port}`);
 });

@@ -1,70 +1,83 @@
 <%- include('partials/header.ejs') %>
-<% for (let i = 0; i < 5; i++) { %>
-  <!-- TODO: clicking the div takes u to the article-->
-<div class="border-2 border-b-0 p-20 hover:bg-black hover:text-white active:bg-black active:text-white focus:bg-black focus:text-white transition-colors">
-  <div class="flex flex-row justify-between items-baseline gap-4">
-    <h1 class="font-bold">title of journal</h1>
-    <h1>2026/09/23</h1>
-  </div>
-  <br>
-  <!-- TODO: paragraph preview is just first X words truncated with ... at the end-->
-  <p>lorem ipsum dolor sit amet consectetur adipiscing elit elit soluta blanditiis officia ducimus et odio corrupti aut voluptate harum occaecat corrupti et aut dignissimos est ducimus harum dignissimos eu autem excepturi quis quis et fugiat eu sit quo tempor eum maxime et provident do ex qui possimus mollitia elit in pariatur aliqua dolore eum ducimus adipiscing qui cupidatat iusto iusto culpa est deserunt mollit eu vero ipsum deleniti lorem nihil eiusmod libero consequat quis omnis quo quos ut at eos ...</p>  
+
+<%
+  const qs = (over) => {
+    const p = new URLSearchParams();
+    const t = over.tags !== undefined ? over.tags : activeTags;
+    const s = over.q !== undefined ? over.q : q;
+    const pg = over.page !== undefined ? over.page : page;
+    if (t && t.length) p.set('tags', t.join(','));
+    if (s) p.set('q', s);
+    if (pg && pg > 1) p.set('page', String(pg));
+    const str = p.toString();
+    return '/journal' + (str ? '?' + str : '');
+  };
+  const toggleTag = (name) => {
+    const next = activeTags.includes(name)
+      ? activeTags.filter((x) => x !== name)
+      : [...activeTags, name];
+    return qs({ tags: next, page: 1 }) + '#controls';
+  };
+%>
+
+<% if (!entries.length) { %>
+<div class="border-2 border-b-0 p-20">
+  <p>no entries<%= (q || activeTags.length) ? ' match this filter' : '' %>.</p>
 </div>
 <% } %>
-<!-- TODO: When clicking on any filter box, when regetting new url with new paramaters focus should be on the bottom still, so user doenst have to scroll all the way down when doing multiple filter tags or searching after setting filter-->
-<div class="border-2 border-b-0 p-5 flex flex-row justify-start items-center space-x-2">
-  <href>Prev</href>
-  <href>1..35</href>
-  <href>Next</href>
-  <href>Filter</href>
-  <href>Search</href>
-</div>
-<div class="border-2 border-b-0 p-5 flex flex-row justify-start items-center space-x-2 hidden">
-enter query here..
-</div>
-<div class="border-2 border-b-0 p-3 sm:p-5 flex flex-row flex-wrap justify-start items-center gap-2 hidden">
-	<div class="outline outline-2 outline-black whitespace-nowrap px-2 py-1 text-sm sm:text-base">
-	general-thought
-	</div>
-	<div class="outline outline-2 outline-black whitespace-nowrap px-2 py-1 text-sm sm:text-base">
-	general-thought
-	</div>
-	<div class="outline outline-2 outline-black whitespace-nowrap px-2 py-1 text-sm sm:text-base">
-	general-thought
-	</div>
-	<div class="outline outline-2 outline-black whitespace-nowrap px-2 py-1 text-sm sm:text-base">
-	general-thought
-	</div>
-	<div class="outline outline-2 outline-black whitespace-nowrap px-2 py-1 text-sm sm:text-base">
-	general-thought
-	</div>
-	<div class="outline outline-2 outline-black whitespace-nowrap px-2 py-1 text-sm sm:text-base">
-	general-thought
-	</div>
-	<div class="outline outline-2 outline-black whitespace-nowrap px-2 py-1 text-sm sm:text-base">
-	general-thought
-	</div>
-	<div class="outline outline-2 outline-black whitespace-nowrap px-2 py-1 text-sm sm:text-base">
-	general-thought
-	</div>
-	<div class="outline outline-2 outline-black whitespace-nowrap px-2 py-1 text-sm sm:text-base">
-	general-thought
-	</div>
-	<div class="outline outline-2 outline-black whitespace-nowrap px-2 py-1 text-sm sm:text-base">
-	general-thought
-	</div>
-	<div class="outline outline-2 outline-black whitespace-nowrap px-2 py-1 text-sm sm:text-base">
-	general-thought
-	</div>
-	<div class="whitespace-nowrap px-2 py-1 text-sm sm:text-base">
-	general-thought
-	</div>
-	<div class="outline outline-2 outline-black whitespace-nowrap px-2 py-1 text-sm sm:text-base">
-	general-thought
-	</div>
-	<div class="whitespace-nowrap px-2 py-1 text-sm sm:text-base">
-	general-thought
-	</div>
-</div>
-<%- include('partials/footer.ejs') %>
 
+<% entries.forEach(function (entry) { %>
+<a href="/journal/<%= entry.id %>">
+  <div class="border-2 border-b-0 p-20 hover:bg-black hover:text-white active:bg-black active:text-white focus:bg-black focus:text-white transition-colors">
+    <div class="flex flex-row justify-between items-baseline gap-4">
+      <h1 class="font-bold"><%= entry.title %></h1>
+      <h1><%= entry.day %></h1>
+    </div>
+    <br>
+    <p><%= entry.excerpt %></p>
+  </div>
+</a>
+<% }); %>
+
+<div id="controls" class="border-2 border-b-0 p-5 flex flex-row flex-wrap justify-start items-center gap-2">
+  <% if (page > 1) { %>
+    <a href="<%= qs({ page: page - 1 }) %>"><span class="outline outline-2 outline-black px-2 py-1">Prev</span></a>
+  <% } else { %>
+    <span class="px-2 py-1 opacity-40">Prev</span>
+  <% } %>
+
+  <% if (page < totalPages) { %>
+    <a href="<%= qs({ page: page + 1 }) %>"><span class="outline outline-2 outline-black px-2 py-1">Next</span></a>
+  <% } else { %>
+    <span class="px-2 py-1 opacity-40">Next</span>
+  <% } %>
+
+  <button type="button" onclick="document.getElementById('tag-filter').classList.toggle('hidden')" class="outline outline-2 outline-black px-2 py-1">Filter</button>
+  <button type="button" onclick="document.getElementById('search-row').classList.toggle('hidden')" class="outline outline-2 outline-black px-2 py-1">Search</button>
+
+  <% if (totalPages > 1) { %>
+    <% for (let p = 1; p <= totalPages; p++) { %>
+      <% if (p === page) { %>
+        <span class="outline outline-2 outline-black bg-black text-white px-2 py-1"><%= p %></span>
+      <% } else { %>
+        <a href="<%= qs({ page: p }) %>"><span class="px-2 py-1"><%= p %></span></a>
+      <% } %>
+    <% } %>
+  <% } %>
+</div>
+
+<div id="tag-filter" class="border-2 border-b-0 p-3 sm:p-5 flex flex-row flex-wrap justify-start items-center gap-2 <%= activeTags.length ? '' : 'hidden' %>">
+  <% tags.forEach(function (t) { %>
+    <a href="<%= toggleTag(t) %>" class="whitespace-nowrap px-2 py-1 text-sm sm:text-base <%= activeTags.includes(t) ? 'outline outline-2 outline-black' : '' %>"><%= t %></a>
+  <% }); %>
+</div>
+
+<div id="search-row" class="border-2 border-b-0 p-5 <%= q ? '' : 'hidden' %>">
+  <form action="/journal" method="get" class="flex flex-row gap-2">
+    <input type="hidden" name="tags" value="<%= activeTags.join(',') %>">
+    <input type="text" name="q" value="<%= q %>" placeholder="enter query here.." class="outline outline-2 outline-black px-2 py-1 flex-1">
+    <button type="submit" class="outline outline-2 outline-black px-2 py-1">go</button>
+  </form>
+</div>
+
+<%- include('partials/footer.ejs') %>

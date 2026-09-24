@@ -49,6 +49,43 @@ const parseTags = (v) => {
   return [...new Set(list.map((t) => String(t).trim().toLowerCase()).filter(Boolean))];
 };
 
+const validateTags = (tags) => {
+  const bad = tags.find((t) => t.length > 64);
+  if (bad) die(`tag too long (max 64 chars): "${bad}"`);
+  return tags;
+};
+
+const editTags = async (frontmatterTags, db) => {
+  const selected = [...frontmatterTags];
+
+  if (!process.stdin.isTTY) return validateTags(selected);
+
+  const [rows] = await db.query('SELECT name FROM tag ORDER BY name');
+  const known = rows.map((r) => r.name);
+  const choices = [...new Set([...known, ...selected])].sort();
+
+  let picked = selected;
+  if (choices.length) {
+    const answer = await inquirer.prompt([
+      {
+        type: 'checkbox',
+        name: 'picked',
+        message: 'tags (space to toggle, enter to confirm):',
+        choices: choices.map((name) => ({ name, checked: selected.includes(name) })),
+        pageSize: 15,
+      },
+    ]);
+    picked = answer.picked;
+  }
+
+  const { extra } = await inquirer.prompt([
+    { type: 'input', name: 'extra', message: 'new tags (comma separated, blank to skip):' },
+  ]);
+
+  return validateTags(parseTags([...picked, ...parseTags(extra)]));
+};
+
+
 const loadEnv = () => {
   if (!fs.existsSync(ENV_PATH)) return {};
   return dotenv.parse(fs.readFileSync(ENV_PATH));
@@ -195,7 +232,7 @@ const addEntry = async (db, presetPath, dryRun) => {
 
   const title = data.title ? String(data.title) : null;
   const day = toDay(data.date);
-  const tags = parseTags(data.tags);
+  let tags = parseTags(data.tags);
 
   const questions = [];
   if (!title) {
@@ -220,8 +257,7 @@ const addEntry = async (db, presetPath, dryRun) => {
 
   const finalTitle = (title || answers.title).trim();
   const finalDay = day || answers.date.trim();
-  const badTag = tags.find((t) => t.length > 64);
-  if (badTag) die(`tag too long (max 64 chars): "${badTag}"`);
+  tags = await editTags(tags, db);
 
   console.log(`\n  title: ${finalTitle}\n  date:  ${finalDay}\n  tags:  ${tags.length ? tags.join(', ') : '(none)'}\n  body:  ${body.length} chars\n`);
 

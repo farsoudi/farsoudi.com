@@ -1,0 +1,39 @@
+# farsoudi.com journal client config
+#
+# copy to scripts/config.yaml and edit (it is gitignored).
+# secrets live in scripts/.env and are referenced here as ${VAR} (see below).
+#
+# any string value may reference an env var as ${VAR} or ${VAR:-default};
+# resolution order is the real environment first, then scripts/.env.
+# db credentials are per-connection `user` / `password`.
+
+# connection used when you don't pick one interactively
+default: remote
+
+connections:
+  # direct connection, no ssh
+  local:
+    kind: local
+    host: 127.0.0.1
+    port: 3306
+    database: farsoudicom
+    user: ${LOCAL_DB_USER}
+    password: ${LOCAL_DB_PASS}
+
+  # reach the remote db through an ssh tunnel; a free local port is chosen
+  # automatically starting at tunnel.port_start
+  remote:
+    kind: remote
+    ssh:
+      host: changeme
+      user: changeme
+      port: 22
+      key: ~/.ssh/id_ed25519        # optional; omit to use ssh agent/default
+    tunnel:
+      bind_host: 127.0.0.1
+      port_start: 3036
+      target_host: 127.0.0.1        # as seen from the remote host
+      target_port: 3306
+    database: farsoudicom
+    user: ${REMOTE_DB_USER}
+    password: ${REMOTE_DB_PASS}

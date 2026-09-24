@@ -10,6 +10,9 @@ services:
       - MYSQL_PASSWORD=${DB_PW}
     volumes:
       - ./mysql_data:/var/lib/mysql
+      - ./schema/schema.sql:/docker-entrypoint-initdb.d/schema.sql:ro   # applied on first init only
+    ports:
+      - "127.0.0.1:3306:3306"   # loopback only: reachable by the client's ssh tunnel
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 1s

@@ -2,3 +2,5 @@ node_modules/
 public/output.css
 mysql_data/
 .env
+scripts/.env
+scripts/config.yaml

@@ -29,7 +29,7 @@
       <div class="px-10 sm:px-20 pb-14">
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-8">
           <% items.forEach(function (p) { %>
-            <a href="/portfolio/<%= p.slug %>" class="group border-2 flex flex-col hover:bg-black hover:text-white active:bg-black active:text-white focus:bg-black focus:text-white transition-colors">
+            <a href="/portfolio/<%= p.slug %>" class="group border-2 border-black flex flex-col hover:bg-black hover:text-white active:bg-black active:text-white focus:bg-black focus:text-white transition-colors">
               <div class="aspect-[4/3] overflow-hidden border-b-2 bg-white">
                 <% if (p.media.hero) { %>
                   <img src="<%= p.media.hero %>" alt="<%= p.title %>" loading="lazy" decoding="async" class="w-full h-full <%= p.media.contain ? 'object-contain p-6' : 'object-cover' %>" />

@@ -48,7 +48,7 @@ services:
     profiles: ["dev"]
     build: .
     restart: unless-stopped
-    command: sh -c "npx tailwindcss -i ./public/input.css -o ./public/output.css --watch & node --watch index.js"
+    command: sh -c "npx tailwindcss -i ./public/input.css -o ./public/output.css --watch=always & node --watch index.js"
     ports:
       - "${PORT}:${PORT}"
     volumes:

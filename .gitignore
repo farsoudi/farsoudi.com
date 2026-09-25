@@ -4,3 +4,4 @@ mysql_data/
 .env
 scripts/.env
 scripts/config.yaml
+TODO.md

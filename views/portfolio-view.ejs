@@ -1,0 +1,112 @@
+<%- include('partials/header.ejs') %>
+
+<div class="border-2 border-b-0 p-10 sm:p-20">
+  <a href="/portfolio" class="underline">&larr; portfolio</a>
+  <br/>
+  <br/>
+
+  <div class="flex flex-row justify-between items-baseline gap-4 flex-wrap">
+    <h1 class="text-3xl font-bold"><%= project.title %></h1>
+    <span><%= project.date %></span>
+  </div>
+  <p class="text-xl mt-1"><%= project.subtitle %></p>
+
+  <% if (project.awards && project.awards.length) { %>
+    <div class="mt-4 flex flex-wrap gap-2">
+      <% project.awards.forEach(function (a) { %>
+        <span class="text-sm px-2 py-1 outline outline-2 outline-black"><%= a %></span>
+      <% }); %>
+    </div>
+  <% } %>
+
+  <br/>
+
+  <% if (project.media.hero) { %>
+    <img src="<%= project.media.hero %>" alt="<%= project.title %>" class="block mx-auto mb-6 max-h-[60vh] w-auto max-w-full lg:float-left lg:mr-8 lg:mb-4 lg:max-h-[50vh] lg:max-w-[45%]" />
+  <% } %>
+
+  <p><%= project.summary %></p>
+
+  <br/>
+  <h2 class="text-2xl font-bold">highlights</h2>
+  <br/>
+  <ul class="list-disc pl-6 space-y-2">
+    <% project.highlights.forEach(function (h) { %>
+      <li><%= h %></li>
+    <% }); %>
+  </ul>
+
+  <% if (project.contributors) { %>
+    <br/>
+    <div class="border-2 p-5 overflow-hidden">
+      <p class="font-bold">collaboration</p>
+      <p class="mt-1"><%= project.contributors %></p>
+    </div>
+  <% } %>
+
+  <br/>
+  <h2 class="text-2xl font-bold">tech</h2>
+  <br/>
+  <div class="flex flex-wrap gap-2">
+    <% project.tech.forEach(function (t) { %>
+      <span class="px-2 py-1 outline outline-2 outline-black whitespace-nowrap"><%= t %></span>
+    <% }); %>
+  </div>
+
+  <% if (project.links && project.links.length) { %>
+    <br/>
+    <h2 class="text-2xl font-bold">links</h2>
+    <br/>
+    <div class="flex flex-col">
+      <% project.links.forEach(function (l) { %>
+        <a href="<%= l.url %>" target="_blank" rel="noopener" class="border-t-2 py-3 hover:bg-black hover:text-white active:bg-black active:text-white focus:bg-black focus:text-white transition-colors">
+          <span class="text-xl"><%= l.label %></span> <span class="underline"><%= l.url %></span>
+        </a>
+      <% }); %>
+    </div>
+  <% } %>
+
+  <% if (project.media.video) { %>
+    <br/>
+    <div class="clear-both">
+      <h2 class="text-2xl font-bold">demo</h2>
+      <br/>
+      <video controls playsinline class="w-full border-2 bg-black">
+        <source src="<%= project.media.video %>" type="video/mp4" />
+      </video>
+    </div>
+  <% } %>
+
+  <% const extra = (project.media.gallery || []).filter(function (g) { return g !== project.media.hero; }); %>
+  <% if (extra.length) { %>
+    <br/>
+    <div class="clear-both">
+      <h2 class="text-2xl font-bold">gallery</h2>
+      <br/>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+        <% extra.forEach(function (g) { %>
+          <% const item = (typeof g === 'string') ? { type: 'image', src: g } : g; %>
+          <% if (item.type === 'video') { %>
+            <video controls playsinline preload="metadata" class="max-h-[60vh] w-auto max-w-full mx-auto border-2 bg-black">
+              <source src="<%= item.src %>" type="video/mp4" />
+            </video>
+          <% } else { %>
+            <img src="<%= item.src %>" alt="<%= project.title %>" loading="lazy" decoding="async" class="max-h-[60vh] w-auto max-w-full mx-auto border-2" />
+          <% } %>
+        <% }); %>
+      </div>
+    </div>
+  <% } %>
+
+  <% if (project.pending) { %>
+    <br/>
+    <p class="italic opacity-70"><%= project.pending %></p>
+  <% } %>
+
+  <br/>
+  <div class="clear-both">
+    <a href="/portfolio" class="underline">&larr; portfolio</a>
+  </div>
+</div>
+
+<%- include('partials/footer.ejs') %>

@@ -33,6 +33,8 @@ db.connect(err => {
 
 });
 
+const projects = require('./data/projects');
+
 const IMAGE_EXTS = 'jpe?g|png|gif|webp|avif';
 const IMAGE_EXT_RE = new RegExp(`\\.(${IMAGE_EXTS})$`, 'i');
 const OLD_IMAGE_RE = new RegExp(`\\.old\\.(${IMAGE_EXTS})$`, 'i');
@@ -72,6 +74,18 @@ app.get('/', (req, res) => {
         .filter((f) => IMAGE_EXT_RE.test(f) && !OLD_IMAGE_RE.test(f))
         .sort(() => 0.5 - Math.random());
     res.render('index', { images });
+});
+
+app.get('/portfolio', (req, res) => {
+    res.render('portfolio', { projects });
+});
+
+app.get('/portfolio/:slug', (req, res) => {
+    const project = projects.find((p) => p.slug === req.params.slug);
+    if (!project) {
+        return res.status(404).render('error', { status: 404, message: 'Project not found.' });
+    }
+    res.render('portfolio-view', { project });
 });
 
 app.get('/journal', async (req, res) => {

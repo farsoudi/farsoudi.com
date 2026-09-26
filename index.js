@@ -13,25 +13,31 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// MySQL connection
-const db = mysql.createConnection({
+// MySQL connection pool (survives dropped / idle-closed connections)
+const db = mysql.createPool({
     host: process.env.MYSQL_HOST,
     user: process.env.MYSQL_USER,
     password: process.env.MYSQL_PASSWORD,
     database: process.env.MYSQL_DATABASE,
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0,
+    enableKeepAlive: true,
+    keepAliveInitialDelay: 10000,
 });
 
 const dbPromise = db.promise();
 
+db.on('error', (err) => {
+    console.error('MySQL pool error:', err);
+});
 
-db.connect(err => {
-    if (err) {
+dbPromise.query('SELECT 1')
+    .then(() => console.log('Connected to MySQL'))
+    .catch((err) => {
         console.error('MySQL error:', err);
         process.exit(1);
-    }
-    console.log('Connected to MySQL');
-
-});
+    });
 
 const projects = require('./data/projects');
 

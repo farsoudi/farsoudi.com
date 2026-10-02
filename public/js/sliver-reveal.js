@@ -23,59 +23,36 @@
     img.style.webkitMaskImage = mask;
   }
 
-  const HOLD_MS = 3500;
-
-  // animates the slivers at `order[startIdx..startIdx+count)` to `value` one at a
-  // time, spread evenly over durationMs; calls onDone when finished
-  function stepReveals(img, N, revealed, order, startIdx, count, durationMs, value, onDone) {
-    if (count <= 0) { onDone(); return; }
-    let k = 0;
-    const step = () => {
-      revealed[order[startIdx + k]] = value;
-      applyMask(img, revealed, N);
-      k++;
-      if (k >= count) { onDone(); return; }
-      setTimeout(step, durationMs / count);
-    };
-    step();
-  }
-
-  // repeatedly: start with `base` fraction revealed, pop in the remaining slivers
-  // over t seconds, hold, then conceal them all and repeat
-  function loopImage(img, delta, base, t) {
+  function initImage(img, delta, base, t) {
     const N = Math.max(1, Math.round(1 / delta));
+    const baseCount = Math.min(N, Math.floor(base * N));
+    const order = shuffle([...Array(N).keys()]);
+    const revealed = new Array(N).fill(false);
+    for (let k = 0; k < baseCount; k++) revealed[order[k]] = true;
 
     img.style.maskRepeat = img.style.webkitMaskRepeat = 'no-repeat';
     img.style.maskSize = img.style.webkitMaskSize = '100% 100%';
+    applyMask(img, revealed, N);
 
-    const cycle = (first) => {
-      const order = shuffle([...Array(N).keys()]);
-      const revealed = new Array(N).fill(false);
-      const baseCount = first ? Math.min(N, Math.floor(base * N)) : 0;
-      for (let k = 0; k < baseCount; k++) revealed[order[k]] = true;
-      applyMask(img, revealed, N);
-
-      stepReveals(img, N, revealed, order, baseCount, N - baseCount, t * 1000, true, () => {
-        setTimeout(() => {
-          stepReveals(img, N, revealed, shuffle([...Array(N).keys()]), 0, N, t * 1000, false, () => {
-            cycle(false);
-          });
-        }, HOLD_MS);
-      });
-    };
-
-    cycle(true);
+    // remaining slivers pop in at random positions, spread linearly over t seconds
+    const remaining = N - baseCount;
+    for (let k = 0; k < remaining; k++) {
+      const delay = (t * 1000 * (k + 1)) / remaining;
+      setTimeout(() => {
+        revealed[order[baseCount + k]] = true;
+        applyMask(img, revealed, N);
+      }, delay);
+    }
   }
 
   document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('.sliver-img').forEach((img, i) => {
+    document.querySelectorAll('.sliver-img').forEach((img) => {
       const container = img.closest('[data-sliver-delta]');
       if (!container) return;
       const delta = parseFloat(container.dataset.sliverDelta);
       const base = parseFloat(container.dataset.sliverBase);
       const t = parseFloat(container.dataset.sliverT);
-      // stagger each layer's cycle so they don't all loop in lockstep
-      setTimeout(() => loopImage(img, delta, base, t), i * 1500);
+      initImage(img, delta, base, t);
     });
   });
 })();
